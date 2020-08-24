@@ -1,0 +1,37 @@
+{
+  "name": "proto-typescript-default",
+  "version": "0.0.0",
+  "description": "",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "self-reproject": "node reproject.js",
+    "build:prepare": "mkdirp ./lib",
+    "build:generate-js": "pbjs -t static-module -w commonjs -r \"${ENV:PROTO_PACKAGE_NAME}\" -o lib/index.js ${ENV:PROTO_FILES_ABS}",
+    "build:generate-ts": "pbts -o lib/index.d.ts lib/index.js",
+    "build": "npm run self-reproject && npm install && npm run build:prepare && npm run build:generate-js && npm run build:generate-ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jc-lab/protobuf-example-repo-nodejs.git"
+  },
+  "author": {
+    "name": "Jenkins"
+  },
+  "publishConfig": {
+    "registry": "https://your.npm.repository"
+  },
+  "devDependencies": {
+    "@types/long": "^4.0.1",
+    "@types/node": "^14.0.14",
+    "mkdirp": "^1.0.4",
+    "protobufjs": "^6.10.1"
+  },
+  "pbrepo": {
+    "version": "${ENV:BUILD_MAJOR_VERSION}.${THIS:gitRevision}.${ENV:BUILD_REVISION}",
+    "repository": {
+      "type": "git",
+      "url": "${ENV:BUILD_GIT_ORIGIN_URL}"
+    }
+  }
+}
